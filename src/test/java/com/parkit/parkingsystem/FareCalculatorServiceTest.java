@@ -22,7 +22,7 @@ public class FareCalculatorServiceTest {
     private static void setUp() {
         fareCalculatorService = new FareCalculatorService();
     }
-
+ 
     @BeforeEach
     private void setUpPerTest() {
         ticket = new Ticket();
@@ -34,7 +34,7 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-
+ 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime); 
         ticket.setParkingSpot(parkingSpot);
@@ -43,7 +43,8 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public void calculateFareBike(){
+    public void calculateFareBike(){ 
+    	
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();

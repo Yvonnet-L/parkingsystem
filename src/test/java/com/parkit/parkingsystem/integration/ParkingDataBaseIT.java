@@ -41,7 +41,7 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
     }
-
+ 
     @AfterAll
     private static void tearDown(){
 
