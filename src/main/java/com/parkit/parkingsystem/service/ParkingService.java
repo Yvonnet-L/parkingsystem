@@ -16,7 +16,7 @@ public class ParkingService {
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
     private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
-
+ 
     private InputReaderUtil inputReaderUtil;
     private ParkingSpotDAO parkingSpotDAO;
     private  TicketDAO ticketDAO;
@@ -26,7 +26,7 @@ public class ParkingService {
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
-
+  
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -44,11 +44,15 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
+                // Ajout Acceuil client 
+                if (ticketDAO.ExistTicketPassed(vehicleRegNumber) == true){
+                	System.out.println("\r\n"+"Welcome back!" + "\r\n" + "As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                }
                 ticketDAO.saveTicket(ticket);
-                System.out.println("Generated Ticket and saved in DB");
+                System.out.println( "\r\n" + "Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
-            }
+            } 
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
         }
@@ -96,10 +100,11 @@ public class ParkingService {
             }
         }
     }
-
+  
     public void processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
+            // Problème ici ! prend la 1er ligne trouvée 
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
@@ -108,7 +113,8 @@ public class ParkingService {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);
-                System.out.println("Please pay the parking fare:" + ticket.getPrice());
+                //double price = (double) Math.round(ticket.getPrice() * 100) / 100;
+                System.out.println("Please pay the parking fare: " + ticket.getPrice() + " $");
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
             }else{
                 System.out.println("Unable to update ticket information. Error occurred");

@@ -10,7 +10,7 @@ public class Ticket {
     private double price;
     private Date inTime;
     private Date outTime;
-
+ 
     public int getId() {
         return id;
     }
@@ -22,7 +22,7 @@ public class Ticket {
     public ParkingSpot getParkingSpot() {
         return parkingSpot;
     }
-
+ 
     public void setParkingSpot(ParkingSpot parkingSpot) {
         this.parkingSpot = parkingSpot;
     }
@@ -42,7 +42,7 @@ public class Ticket {
     public void setPrice(double price) {
         this.price = price;
     }
-
+ 
     public Date getInTime() {
         return inTime;
     }

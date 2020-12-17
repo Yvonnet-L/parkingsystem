@@ -6,10 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
 public class InputReaderUtil {
-
+ 
     private static Scanner scan = new Scanner(System.in);
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
-
+   
     public int readSelection() {
         try {
             int input = Integer.parseInt(scan.nextLine());
@@ -20,7 +20,7 @@ public class InputReaderUtil {
             return -1;
         }
     }
-
+ 
     public String readVehicleRegistrationNumber() throws Exception {
         try {
             String vehicleRegNumber= scan.nextLine();
