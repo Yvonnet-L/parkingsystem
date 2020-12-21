@@ -45,7 +45,7 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 // Ajout Acceuil client 
-                if (ticketDAO.ExistTicketPassed(vehicleRegNumber) == true){
+                if (ticketDAO.existTicketPassed(vehicleRegNumber) == true){
                 	System.out.println("\r\n"+"Welcome back!" + "\r\n" + "As a recurring user of our parking lot, you'll benefit from a 5% discount.");
                 }
                 ticketDAO.saveTicket(ticket);
@@ -113,7 +113,6 @@ public class ParkingService {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);
-                //double price = (double) Math.round(ticket.getPrice() * 100) / 100;
                 System.out.println("Please pay the parking fare: " + ticket.getPrice() + " $");
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
             }else{

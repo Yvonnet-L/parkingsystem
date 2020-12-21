@@ -9,7 +9,7 @@ import java.sql.*;
 public class DataBaseTestConfig extends DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
-   
+    
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -38,7 +38,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
             }
         }
     }
-
+ 
     public void closeResultSet(ResultSet rs) {
         if(rs!=null){
             try {

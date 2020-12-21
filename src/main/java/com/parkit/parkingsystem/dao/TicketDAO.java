@@ -85,7 +85,7 @@ public class TicketDAO {
         return false;
     }
     
-    public boolean ExistTicketPassed(String vehicleRegNumber) {
+    public boolean existTicketPassed(String vehicleRegNumber) {
         Connection con = null;
         try {
             con = dataBaseConfig.getConnection();           
@@ -100,7 +100,7 @@ public class TicketDAO {
             logger.error("Error EXISTANCE ticket info",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
-        }
+        } 
         return false;
     }
 }

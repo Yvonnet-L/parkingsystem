@@ -38,7 +38,7 @@ public class FareCalculatorService {
         }
         //the recurring user benefits from a 5% discount
         TicketDAO ticketDAO = new TicketDAO() ; 
-        if (ticketDAO.ExistTicketPassed(ticket.getVehicleRegNumber()) == true){
+        if (ticketDAO.existTicketPassed(ticket.getVehicleRegNumber()) == true){
         	duration = duration * 0.95;
         	System.out.println("the recurring user benefits from a 5% discount ^^");
         	if (duration == 0) {
