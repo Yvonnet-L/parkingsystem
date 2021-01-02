@@ -37,7 +37,7 @@ public class TicketDAO {
             return false;
         }
     }
-
+  
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -66,7 +66,7 @@ public class TicketDAO {
             return ticket;
         }
     }
-
+ 
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         try {
@@ -103,4 +103,4 @@ public class TicketDAO {
         } 
         return false;
     }
-}
+} 

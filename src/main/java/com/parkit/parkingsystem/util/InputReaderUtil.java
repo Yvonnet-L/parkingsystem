@@ -20,7 +20,7 @@ public class InputReaderUtil {
             return -1;
         }
     }
-  
+    
     public String readVehicleRegistrationNumber() throws Exception {
         try {
             String vehicleRegNumber= scan.nextLine();

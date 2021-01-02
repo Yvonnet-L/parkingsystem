@@ -34,7 +34,7 @@ public class ParkingDataBaseIT {
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
     }
-  
+   
     @BeforeEach
     private void setUpPerTest() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
@@ -46,7 +46,7 @@ public class ParkingDataBaseIT {
     private static void tearDown(){
   
     }
- 
+  
     @Test
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
