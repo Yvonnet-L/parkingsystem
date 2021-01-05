@@ -109,10 +109,9 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		// WHEN
-		// THEN
 		assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
 	}
-
+  
 	@Test
 	@DisplayName("Tarif pour moins de 45 min pour un vélo")
 	public void calculateFareBikeWithLessThanOneHourParkingTime() {

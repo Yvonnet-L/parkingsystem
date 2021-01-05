@@ -107,6 +107,7 @@ public class ParkingService {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             // Problème ici ! prend la 1er ligne trouvée 
+            //   ---> modification de la Constant sql GEt_Ticket avec "order by t.IN_TIME DESC limit 1"
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);

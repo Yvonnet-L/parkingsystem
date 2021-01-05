@@ -38,7 +38,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
             }
         }
     }
- 
+   
     public void closeResultSet(ResultSet rs) {
         if(rs!=null){
             try {
