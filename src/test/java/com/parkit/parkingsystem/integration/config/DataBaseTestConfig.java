@@ -9,14 +9,14 @@ import java.sql.*;
 public class DataBaseTestConfig extends DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
-    
+     
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/prod? serverTimezone = UTC","root","rootroot");
     }
-     
+      
     public void closeConnection(Connection con){
         if(con!=null){
             try {
@@ -27,7 +27,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
             }
         }
     }
- 
+  
     public void closePreparedStatement(PreparedStatement ps) {
         if(ps!=null){
             try {

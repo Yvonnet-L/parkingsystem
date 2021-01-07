@@ -13,8 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -37,15 +35,12 @@ public class FareCalculatorServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
-
 	@BeforeEach
 	private void setUpPerTest() {
 		ticket = new Ticket();
 		fareCalculatorService = new FareCalculatorService(ticketDAO);
     }
-	
-    
-    
+   
 	@Test
 	@DisplayName("Vérification du tarif pour 1 heure pour une voiture")
 	public void calculateFareCar() {
@@ -54,16 +49,15 @@ public class FareCalculatorServiceTest {
 		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
 		Date outTime = new Date();
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		// WHEN
 		fareCalculatorService.calculateFare(ticket);
 		// Then
-		assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
+		assertEquals(ticket.getPrice() , Fare.CAR_RATE_PER_HOUR);
 	}
-
+  
 	@Test
 	@DisplayName("Vérification du tarif pour 1 heure pour un vélo")
 	public void calculateFareBike() {
@@ -78,7 +72,7 @@ public class FareCalculatorServiceTest {
 		// WHEN
 		fareCalculatorService.calculateFare(ticket);
 		// THEN
-		assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
+		assertEquals(Fare.BIKE_RATE_PER_HOUR , ticket.getPrice());
 	}
 
 	@Test
@@ -109,9 +103,10 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		// WHEN
+		// THEN
 		assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
 	}
-  
+   
 	@Test
 	@DisplayName("Tarif pour moins de 45 min pour un vélo")
 	public void calculateFareBikeWithLessThanOneHourParkingTime() {
@@ -195,7 +190,7 @@ public class FareCalculatorServiceTest {
 		int[] timePark = { 0, 2, 3, 8, 9, 12, 17, 20, 29, 30 };
 		for (int i = 0; i < timePark.length; i++) {
 			inTime.setTime(System.currentTimeMillis() - (timePark[i] * 60 * 1000));// 30 minutes or less parking time
-																					// should give Free parking Fare (0)
+		 																			// should give Free parking Fare (0)
 			Date outTime = new Date();
 			ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
 			ticket.setInTime(inTime);
@@ -208,26 +203,7 @@ public class FareCalculatorServiceTest {
 		}
 	}
 
-	// Même test mais avec @ParameterizedTest et @ ValueSource
-	@ParameterizedTest(name = "{0} x 60 x 1000 doit être égal à 0 * Fare.BIKE_RATE_PER_HOUR ")
-	@ValueSource(ints = { 0, 2, 3, 8, 9, 12, 17, 20, 29, 30 })
-	@DisplayName("Passer 30 minutes ou moins le parking est gratuis pour Vélo2")
-	public void calculateFareBikeWithLessThanThirtyMinutesParkingTime2(int arg) {
-		// GIVEN
-		Date inTime = new Date();
-		inTime.setTime(System.currentTimeMillis() - (arg * 60 * 1000));// 30 minutes or less parking time should give
-																		// Free parking Fare (0)
-		Date outTime = new Date();
-		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-		ticket.setInTime(inTime);
-		ticket.setOutTime(outTime);
-		ticket.setParkingSpot(parkingSpot);
-		// WHEN
-		fareCalculatorService.calculateFare(ticket);
-		// THEN
-		assertEquals((0 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
-	}
- 
+	
 	@Test
 	@DisplayName("Pour les vélos à 36 minutes le pris du parking dois être de 0.6*le prix de l'heure")
 	public void calculateFareBikeWithThanThirtySixMinutesParkingTime() {

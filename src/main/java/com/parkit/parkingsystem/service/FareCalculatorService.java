@@ -49,11 +49,11 @@ public class FareCalculatorService {
         			System.out.println("the recurring user benefits from a 5% discount" +"\r\n");
         			duration = duration*0.95;
         		}   
-        } 
+        }  
         //----------------------------------------------------------------------
         //double price = (double) Math.round(ticket.getPrice() * 100) / 100;
         switch (ticket.getParkingSpot().getParkingType()){
-         
+          
             case CAR: {
             	double price;
                 price = (double)Math.round((duration * Fare.CAR_RATE_PER_HOUR)* 100) / 100;

@@ -2,6 +2,7 @@ package com.parkit.parkingsystem.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
@@ -19,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
@@ -38,7 +38,7 @@ public class ParkingDataBaseIT {
  
     @Mock
     private static InputReaderUtil inputReaderUtil;
-  
+   
     
     @BeforeAll
     private static void setUp() throws Exception{
@@ -54,12 +54,10 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
-
     }
    
     @AfterAll
     private static void tearDown(){
-  
     }
     
  
@@ -72,7 +70,7 @@ public class ParkingDataBaseIT {
         // Initialisation des boolean de resultats pour les 2 tables parking et ticket
         boolean ParkingMaj=false;
         boolean ticketExist=false;
-        
+         
         Connection connection = null;
         try{
             connection = dataBaseTestConfig.getConnection();
@@ -88,7 +86,6 @@ public class ParkingDataBaseIT {
            		ParkingMaj = rs2.next();
             // verif visuel dans la console
             System.out.println( ticketExist + " et " + ParkingMaj );
-
         }catch(Exception e){
             e.printStackTrace();
         }finally {
@@ -134,7 +131,7 @@ public class ParkingDataBaseIT {
     				for(int i = 1; i <=  resultMeta.getColumnCount(); i++)
     					System.out.print("\t" + rs1.getObject(i).toString() + "\t |");  				
     				System.out.println("\n----------------------------------------------------------------------------------");
-    			}         
+    			}          
         }catch(Exception e){
             e.printStackTrace();
         }finally {
@@ -144,7 +141,7 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);      
         parkingService.processExitingVehicle();
         // Verification des données! ont-elles bien été maj dans la base après le parkingService.processExitingVehicle()?
-        //-- Origin -- TODO: check that the fare generated and out time are populated correctly in the database  --
+        // TODO: check that the fare generated and out time are populated correctly in the database  --
         // Nous avons généré au dessus une nouvelle In_Time avec -3 heures que sera effective en -2h avec le décalage de 1h de la base
         // le PRICE devrait donc être de 3.00
             
@@ -172,19 +169,21 @@ public class ParkingDataBaseIT {
     				fare = Double.parseDouble(rs2.getObject(4).toString());
     				outTime = rs2.getObject(6).toString();
     				System.out.println(fare);
-    			}   
+    				System.out.println(ticketDAO.getTicket("ABCDEF").getOutTime() + " ***** " +  + ticketDAO.getTicket("ABCDEF").getPrice());
+    			 
+    			} 
+    		
         }catch(Exception e){
             e.printStackTrace();
         }finally {
+         	
             dataBaseTestConfig.closeConnection(connection);
         }
-    	// THEN       
-        assertNotNull(outTime, outTime);
-     	assertEquals(true, fare>=3);
-     	//Double pris = 3.00;
-        //assertEquals( pris , fare ); 
-        //assertEquals((double) Math.round((2* Fare.CAR_RATE_PER_HOUR) * 100) / 100, fare);     
-        
+    	// THEN           
+        assertNotNull(outTime);
+     	assertTrue(fare>=3);
+     	
+         
     }
 
 }

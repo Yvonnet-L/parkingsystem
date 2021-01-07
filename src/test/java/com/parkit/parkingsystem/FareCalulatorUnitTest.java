@@ -26,11 +26,11 @@ public class FareCalulatorUnitTest {
 
 	private static FareCalculatorService fareCalculatorService;
 	
-    private Ticket ticket; 
+     private Ticket ticket; 
  
     @Mock
     private static TicketDAO ticketDAO;
-		
+	 	
     		
 	@BeforeEach
 	private void setUpPerTest() {
@@ -51,6 +51,7 @@ public class FareCalulatorUnitTest {
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
+		
 	
 		//when(ticketDAO.existTicketPassed(any(String.class))).thenReturn(true);
 		when(ticketDAO.existTicketPassed(anyString())).thenReturn(true);
@@ -62,5 +63,7 @@ public class FareCalulatorUnitTest {
 		assertEquals( (double)Math.round((0.95*3* Fare.CAR_RATE_PER_HOUR)* 100) / 100, ticket.getPrice());
 		
 	}
+	
+	
 
 }
