@@ -13,7 +13,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+
 	<dependencies>
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
@@ -58,12 +60,15 @@
 			<artifactId>maven-assembly-plugin</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
 		<dependency>
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-maven-plugin</artifactId>
 			<version>3.1.0-RC6</version>
 		</dependency>
+
 	</dependencies>
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -73,6 +78,7 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -110,28 +116,6 @@
 						<version>1.2.0</version>
 					</dependency>
 				</dependencies>
-				<configuration>
-					<excludes>
-						<exclude>**/*IT.java</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<phase>integration-test</phase>
-						<configuration>
-							<excludes>
-								<exclude>none</exclude>
-							</excludes>
-							<includes>
-								<include>**/*IT.java</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -162,7 +146,7 @@
 					<dependency>
 						<groupId>com.github.spotbugs</groupId>
 						<artifactId>spotbugs</artifactId>
-						<version>4.2.0</version>
+						<version>4.1.2</version>
 					</dependency>
 				</dependencies>
 			</plugin>

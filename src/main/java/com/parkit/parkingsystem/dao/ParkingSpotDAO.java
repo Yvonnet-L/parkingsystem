@@ -36,7 +36,7 @@ public class ParkingSpotDAO {
         }
         return result;
     }
-
+ 
     public boolean updateParking(ParkingSpot parkingSpot){
         //update the availability for that parking slot
         Connection con = null;

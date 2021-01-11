@@ -1,7 +1,6 @@
 package com.parkit.parkingsystem;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,18 +18,18 @@ import com.parkit.parkingsystem.config.DataBaseConfig;
 
 @ExtendWith(MockitoExtension.class)
 public class DataBaseConfigTest {
-
+ 
 	// @Mock
 	private DataBaseConfig databaseconfig;
-
+    
 	@Mock
 	private Connection con;
-
+ 
 	@Mock
 	private PreparedStatement ps;
 	@Mock
 	private ResultSet rs;
-
+ 
 	@BeforeEach
 	private void setUpPerTest() {
 		databaseconfig = new DataBaseConfig();
@@ -47,17 +46,4 @@ public class DataBaseConfigTest {
 		// THEN
 		assertEquals(false, con.isClosed());
 	}
-	
-	@Test
-	@DisplayName("Test du close connection")
-	public void testExceptionConDataBaseCongig() {
-
-		// GIVEN
-		con = null;
-		
-		// THEN
-		
-		assertThrows(SQLException.class, () -> databaseconfig.closeConnection(con));
-	}
-
 }

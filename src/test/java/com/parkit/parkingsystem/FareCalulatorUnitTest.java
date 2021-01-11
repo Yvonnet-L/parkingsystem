@@ -24,14 +24,12 @@ import com.parkit.parkingsystem.service.FareCalculatorService;
 public class FareCalulatorUnitTest {
 	
 
-	private static FareCalculatorService fareCalculatorService;
-	
-     private Ticket ticket; 
+	private static FareCalculatorService fareCalculatorService;	
+    private Ticket ticket; 
  
     @Mock
     private static TicketDAO ticketDAO;
-	 	
-    		
+	 	  		
 	@BeforeEach
 	private void setUpPerTest() {
 		ticket = new Ticket();
@@ -51,19 +49,12 @@ public class FareCalulatorUnitTest {
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
-		
-	
-		//when(ticketDAO.existTicketPassed(any(String.class))).thenReturn(true);
+		  
 		when(ticketDAO.existTicketPassed(anyString())).thenReturn(true);
 		// WHEN		 		
 		fareCalculatorService.calculateFare(ticket);
-
-		// THEN
-	
-		assertEquals( (double)Math.round((0.95*3* Fare.CAR_RATE_PER_HOUR)* 100) / 100, ticket.getPrice());
-		
+  
+		// THEN	
+		assertEquals((double)Math.round((0.95*3* Fare.CAR_RATE_PER_HOUR)* 100) / 100, ticket.getPrice());	
 	}
-	
-	
-
 }

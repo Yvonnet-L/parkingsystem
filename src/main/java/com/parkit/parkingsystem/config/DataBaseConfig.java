@@ -15,7 +15,7 @@ public class DataBaseConfig {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/prod? serverTimezone = UTC","root","rootroot");
     }
-   
+     
     public void closeConnection(Connection con){
         if(con!=null){
             try {

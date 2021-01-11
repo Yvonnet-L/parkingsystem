@@ -1,7 +1,6 @@
 package com.parkit.parkingsystem.service;
 
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import com.parkit.parkingsystem.constants.Fare;
@@ -23,17 +22,12 @@ public class FareCalculatorService {
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
- 
-        Date inHour = new Date();
-        Date outHour = new Date();
-        inHour = ticket.getInTime();
-        outHour = ticket.getOutTime();
-        
+       
 		String plaque = ticket.getVehicleRegNumber(); 
          
         //double duration = outHour - inHour; 
         
-        long diffInMillies = Math.abs(outHour.getTime() - inHour.getTime());
+        long diffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());
         double duration= TimeUnit.MILLISECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         duration = duration/3600000; 
          

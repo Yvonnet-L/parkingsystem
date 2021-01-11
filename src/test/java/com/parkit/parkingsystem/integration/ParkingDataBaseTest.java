@@ -1,8 +1,9 @@
 package com.parkit.parkingsystem.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
@@ -28,13 +29,14 @@ import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
 @ExtendWith(MockitoExtension.class)
-public class ParkingDataBaseIT {
-
+public class ParkingDataBaseTest {
+  
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
     
+     
  
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -60,7 +62,7 @@ public class ParkingDataBaseIT {
     private static void tearDown(){
     }
     
- 
+    
     @Test
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -70,7 +72,7 @@ public class ParkingDataBaseIT {
         // Initialisation des boolean de resultats pour les 2 tables parking et ticket
         boolean ParkingMaj=false;
         boolean ticketExist=false;
-         
+          
         Connection connection = null;
         try{
             connection = dataBaseTestConfig.getConnection();
@@ -86,9 +88,13 @@ public class ParkingDataBaseIT {
            		ParkingMaj = rs2.next();
             // verif visuel dans la console
             System.out.println( ticketExist + " et " + ParkingMaj );
+            dataBaseTestConfig.closePreparedStatement(ps1);
+            dataBaseTestConfig.closePreparedStatement(ps2);
+            dataBaseTestConfig.closeResultSet(rs1);
+            dataBaseTestConfig.closeResultSet(rs2);
         }catch(Exception e){
             e.printStackTrace();
-        }finally {
+        }finally {		
             dataBaseTestConfig.closeConnection(connection);
         }
         assertEquals( true, ticketExist);
@@ -96,13 +102,12 @@ public class ParkingDataBaseIT {
     }
     
     
-   
-    @Test
+    
+   @Test
     public void testParkingLotExit(){
         testParkingACar();
         Double fare = null;
-        String outTime = null;
-     	
+        String outTime = null;   	
      	Connection connection = null;
         try{
             connection = dataBaseTestConfig.getConnection();
@@ -131,13 +136,16 @@ public class ParkingDataBaseIT {
     				for(int i = 1; i <=  resultMeta.getColumnCount(); i++)
     					System.out.print("\t" + rs1.getObject(i).toString() + "\t |");  				
     				System.out.println("\n----------------------------------------------------------------------------------");
-    			}          
+    			} 
+    			dataBaseTestConfig.closePreparedStatement(ps);
+    			dataBaseTestConfig.closePreparedStatement(ps1);
+    		    dataBaseTestConfig.closeResultSet(rs1);
         }catch(Exception e){
             e.printStackTrace();
         }finally {
             dataBaseTestConfig.closeConnection(connection);
         }
-     	
+     	 
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);      
         parkingService.processExitingVehicle();
         // Verification des données! ont-elles bien été maj dans la base après le parkingService.processExitingVehicle()?
@@ -170,7 +178,6 @@ public class ParkingDataBaseIT {
     				outTime = rs2.getObject(6).toString();
     				System.out.println(fare);
     				System.out.println(ticketDAO.getTicket("ABCDEF").getOutTime() + " ***** " +  + ticketDAO.getTicket("ABCDEF").getPrice());
-    			 
     			} 
     		
         }catch(Exception e){
@@ -181,9 +188,38 @@ public class ParkingDataBaseIT {
         }
     	// THEN           
         assertNotNull(outTime);
-     	assertTrue(fare>=3);
-     	
-         
+     	assertTrue(fare>=3);        
+    }
+    
+     
+    @Test
+    public void testParkingACarWithTicketDAO(){
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
+        
+        assertEquals(false,ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable());
+        assertNotNull(ticketDAO.getTicket("ABCDEF").getParkingSpot().getId());
+        assertNotNull(ticketDAO.getTicket("ABCDEF").getId());
+        assertNotNull(ticketDAO.getTicket("ABCDEF").getInTime());
+        assertNotNull(ticketDAO.getTicket("ABCDEF").getParkingSpot().getParkingType());
+        assertNull(ticketDAO.getTicket("ABCDEF").getOutTime());
+    }
+      
+    @Test
+    public void testParkingLotExitWithTicketDAO(){
+    	testParkingACarWithTicketDAO();
+    	try { 
+    		  Thread.sleep(300);
+    		}
+    		catch (InterruptedException exception) {
+    		  exception.printStackTrace();
+    		}  	
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);      
+        parkingService.processExitingVehicle();
+        // TODO: check that the fare generated and out time are populated correctly in the database
+        
+        assertNotNull(ticketDAO.getTicket("ABCDEF").getOutTime());
+        assertNotNull(ticketDAO.getTicket("ABCDEF").getPrice());
     }
 
 }

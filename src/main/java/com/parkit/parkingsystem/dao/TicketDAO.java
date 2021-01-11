@@ -58,7 +58,7 @@ public class TicketDAO {
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
-            }
+            } 
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){
@@ -67,7 +67,7 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
         }
         return ticket;     
-    }
+    } 
  
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
@@ -86,7 +86,7 @@ public class TicketDAO {
         }
         return false;
     }
-    
+     
     public boolean existTicketPassed(String vehicleRegNumber) {
         Connection con = null;
         try {

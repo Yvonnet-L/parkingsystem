@@ -26,12 +26,11 @@ import com.parkit.parkingsystem.service.FareCalculatorService;
 
 @ExtendWith(MockitoExtension.class)
 public class FareCalculatorServiceTest {
-
-	
-	private static FareCalculatorService fareCalculatorService; 
-	
-    private Ticket ticket; 
  
+	  
+	private static FareCalculatorService fareCalculatorService; 	
+    private Ticket ticket; 
+   
     @Mock
     private static TicketDAO ticketDAO;
 
@@ -40,7 +39,7 @@ public class FareCalculatorServiceTest {
 		ticket = new Ticket();
 		fareCalculatorService = new FareCalculatorService(ticketDAO);
     }
-   
+    
 	@Test
 	@DisplayName("Vérification du tarif pour 1 heure pour une voiture")
 	public void calculateFareCar() {
@@ -166,8 +165,8 @@ public class FareCalculatorServiceTest {
 		// GIVEN
 		Date inTime = new Date();
 		// with a ramdon, même si c'est pas bien ^^
-		int timePark = (int) (Math.random() * (30 - 0) + 1);
-		inTime.setTime(System.currentTimeMillis() - (timePark * 60 * 1000));// 30 minutes or less parking time should
+		long timePark = (long) (Math.random() * (29 - 0) + 1);
+		inTime.setTime(System.currentTimeMillis() - (timePark * 60L * 1000L));// 30 minutes or less parking time should
 																			// give Free parking Fare (0)
 		Date outTime = new Date();
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -187,10 +186,10 @@ public class FareCalculatorServiceTest {
 		Date inTime = new Date();
 		// Plus dans la norme avec une liste de valeurs ^^, tests négatifs effectués
 		// avec des nombres > 30
-		int[] timePark = { 0, 2, 3, 8, 9, 12, 17, 20, 29, 30 };
+		long[] timePark = { 0, 2, 3, 8, 9, 12, 17, 20, 29, 30 };
 		for (int i = 0; i < timePark.length; i++) {
-			inTime.setTime(System.currentTimeMillis() - (timePark[i] * 60 * 1000));// 30 minutes or less parking time
-		 																			// should give Free parking Fare (0)
+			inTime.setTime(System.currentTimeMillis() - (timePark[i] * 60L * 1000L));// 30 minutes or less parking time
+		 	 	 																	// should give Free parking Fare (0)
 			Date outTime = new Date();
 			ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
 			ticket.setInTime(inTime);
