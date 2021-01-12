@@ -1,7 +1,5 @@
 package com.parkit.parkingsystem.integration;
 
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.when;
@@ -35,7 +33,7 @@ public class ParkingDataBaseTest {
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
-    
+     
      
  
     @Mock
@@ -74,27 +72,35 @@ public class ParkingDataBaseTest {
         boolean ticketExist=false;
           
         Connection connection = null;
+        PreparedStatement ps1 = null;
+     	ResultSet rs1 = null;
+     	PreparedStatement ps2 = null;
+     	ResultSet rs2 = null;
         try{
             connection = dataBaseTestConfig.getConnection();
             //Le ticket est-il enregistré ?
-            PreparedStatement ps1 =connection.prepareStatement("Select * from ticket where PARKING_NUMBER=1 AND VEHICLE_REG_NUMBER='ABCDEF'");
+            ps1 =connection.prepareStatement("Select * from ticket where PARKING_NUMBER=1 AND VEHICLE_REG_NUMBER='ABCDEF'");
             		//-- analyse du résultat vrai si il existe au moins 1 résultats
-           		ResultSet rs1 = ps1.executeQuery();
+           		rs1 = ps1.executeQuery();
            		ticketExist = rs1.next();
            	//la table Parking est-elle maj ?
-           	PreparedStatement ps2 =connection.prepareStatement("Select * from parking WHERE PARKING_NUMBER=1 and AVAILABLE = false");
+           	ps2 =connection.prepareStatement("Select * from parking WHERE PARKING_NUMBER=1 and AVAILABLE = false");
            		//-- analyse du résultat vrai si il existe au moins 1 résultats
-           		ResultSet rs2 = ps2.executeQuery();
+           	rs2 = ps2.executeQuery();
            		ParkingMaj = rs2.next();
             // verif visuel dans la console
             System.out.println( ticketExist + " et " + ParkingMaj );
-            dataBaseTestConfig.closePreparedStatement(ps1);
+           
             dataBaseTestConfig.closePreparedStatement(ps2);
-            dataBaseTestConfig.closeResultSet(rs1);
+          
             dataBaseTestConfig.closeResultSet(rs2);
         }catch(Exception e){
             e.printStackTrace();
-        }finally {		
+        }finally {	
+        	dataBaseTestConfig.closePreparedStatement(ps1);
+        	dataBaseTestConfig.closeResultSet(rs1);
+        	dataBaseTestConfig.closePreparedStatement(ps2);          
+            dataBaseTestConfig.closeResultSet(rs2);
             dataBaseTestConfig.closeConnection(connection);
         }
         assertEquals( true, ticketExist);
@@ -109,13 +115,15 @@ public class ParkingDataBaseTest {
         Double fare = null;
         String outTime = null;   	
      	Connection connection = null;
+     	PreparedStatement ps = null;
+     	ResultSet rs1 = null;
         try{
             connection = dataBaseTestConfig.getConnection();
             //-- Modification de la date d'entrée pour avoir un pris  > 3.00 
-            PreparedStatement ps = connection.prepareStatement("update ticket set IN_TIME = ?");
+            ps = connection.prepareStatement("update ticket set IN_TIME = ?");
             Date inTime = new Date();	
          	inTime.setTime(System.currentTimeMillis() - (180 * 60 * 1000));        	
-         	String dateToStr = DateFormatUtils.format(inTime, "yyyy-MM-dd HH:mm");
+         	String dateToStr = DateFormatUtils.format(inTime, "yyyy-MM-dd HH:mm:ss");
             ps.setString(1,dateToStr);
             ps.execute(); 
             System.out.println("\n------------------------------------------------------------------");
@@ -123,7 +131,7 @@ public class ParkingDataBaseTest {
             // --- Test  ----       
             PreparedStatement ps1 =connection.prepareStatement("Select ID,PARKING_NUMBER,VEHICLE_REG_NUMBER,IN_TIME from ticket");
             	//-- résultat vrai si il existe au moins 1 résultats mais ici nous allons récupérer les données dans un ResultSetMetadata
-           		ResultSet rs1 = ps1.executeQuery(); 		
+           		rs1 = ps1.executeQuery(); 		
     			// On récupère les MetaData
     			ResultSetMetaData resultMeta = rs1.getMetaData();  			
     			System.out.println("\n******************************************************************************************");
@@ -143,6 +151,8 @@ public class ParkingDataBaseTest {
         }catch(Exception e){
             e.printStackTrace();
         }finally {
+        	dataBaseTestConfig.closePreparedStatement(ps);
+        	dataBaseTestConfig.closeResultSet(rs1);
             dataBaseTestConfig.closeConnection(connection);
         }
      	 
@@ -153,13 +163,15 @@ public class ParkingDataBaseTest {
         // Nous avons généré au dessus une nouvelle In_Time avec -3 heures que sera effective en -2h avec le décalage de 1h de la base
         // le PRICE devrait donc être de 3.00
             
+        PreparedStatement ps1 = null;
+     	ResultSet rs2 = null;
         try{
             connection = dataBaseTestConfig.getConnection();         
             // --- Test  ----
           // Le pris est-il enregistré ?
-            PreparedStatement ps1 =connection.prepareStatement("Select * from ticket");
+            ps1 =connection.prepareStatement("Select * from ticket");
             	//-- résultat vrai si il existe au moins 1 résultats mais ici nous allons récupérer les données dans un ResultSetMetadata
-           		ResultSet rs2 = ps1.executeQuery();
+           		rs2 = ps1.executeQuery();
     			// On récupère les MetaData
     			ResultSetMetaData resultMeta2 = rs2.getMetaData();
     			
@@ -183,7 +195,8 @@ public class ParkingDataBaseTest {
         }catch(Exception e){
             e.printStackTrace();
         }finally {
-         	
+        	dataBaseTestConfig.closePreparedStatement(ps1);
+        	dataBaseTestConfig.closeResultSet(rs2);
             dataBaseTestConfig.closeConnection(connection);
         }
     	// THEN           
@@ -196,7 +209,7 @@ public class ParkingDataBaseTest {
     public void testParkingACarWithTicketDAO(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        
+         
         assertEquals(false,ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable());
         assertNotNull(ticketDAO.getTicket("ABCDEF").getParkingSpot().getId());
         assertNotNull(ticketDAO.getTicket("ABCDEF").getId());
@@ -204,7 +217,7 @@ public class ParkingDataBaseTest {
         assertNotNull(ticketDAO.getTicket("ABCDEF").getParkingSpot().getParkingType());
         assertNull(ticketDAO.getTicket("ABCDEF").getOutTime());
     }
-      
+        
     @Test
     public void testParkingLotExitWithTicketDAO(){
     	testParkingACarWithTicketDAO();

@@ -13,7 +13,7 @@ public class Ticket {
     public int getId() {
         return id;
     }
-
+ 
     public void setId(int id) {
         this.id = id;
     }
@@ -43,18 +43,26 @@ public class Ticket {
     }
  
     public Date getInTime() {
-        return inTime;
+    	Date inTime2 = inTime;
+        return inTime2;
+        //return new Date(this.inTime.getTime());
+        
     }
 
     public void setInTime(Date inTime) {
-        this.inTime = inTime;
+        //this.inTime = inTime;
+        this.inTime = new Date(inTime.getTime());
     }
 
     public Date getOutTime() {
-        return outTime;
+    	Date outTime2 = outTime;
+        return outTime2;
+        //return new Date(this.outTime.getTime());
+    
     }
 
-    public void setOutTime(Date outTime) {
+    public void setOutTime(Date outTime) {   	
         this.outTime = outTime;
+        //this.outTime = new Date(outTime.getTime());
     }
 }

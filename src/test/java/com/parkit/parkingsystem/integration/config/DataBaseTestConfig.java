@@ -4,19 +4,41 @@ import com.parkit.parkingsystem.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 public class DataBaseTestConfig extends DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
      
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
+    public Connection getConnection() throws ClassNotFoundException, SQLException, FileNotFoundException, IOException {
         logger.info("Create DB connection");
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod? serverTimezone = UTC","root","rootroot");
+        //----- Origin ------------------------------
+        //Class.forName("com.mysql.cj.jdbc.Driver");
+        //return DriverManager.getConnection(
+        //       "jdbc:mysql://localhost:3306/prod? serverTimezone = UTC","root","rootroot");
+        //---------------------------------------------
+        
+        // Externalisation des données de connection --> conf.properties
+        // Cela nous permet de reinitialiser le fichier de connection sans avoir à recompiler le projet
+        
+        Properties props = new Properties();
+        try ( FileInputStream fis = new FileInputStream( "conf.properties" ) ) {
+        	props.load( fis );
+        }          
+        String url = props.getProperty("jdbc.url");
+        String login = props.getProperty("jdbc.login");
+        String password = props.getProperty("jdbc.password"); 
+        String driver = props.getProperty("jdbc.driver.class");
+        
+        Class.forName( driver);       
+        return DriverManager.getConnection( url, login, password );     
+        
     }
-         
+          
     public void closeConnection(Connection con){
         if(con!=null){
             try {
