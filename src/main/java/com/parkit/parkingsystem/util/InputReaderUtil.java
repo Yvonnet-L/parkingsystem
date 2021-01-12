@@ -6,8 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
 public class InputReaderUtil {
-   
-    private static Scanner scan = new Scanner(System.in);
+	
+    //private static Scanner scan = new Scanner(System.in);
+    private static Scanner scan = new Scanner(System.in, "UTF-8");
+    
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
     
     public int readSelection() {
