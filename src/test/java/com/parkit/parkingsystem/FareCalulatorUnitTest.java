@@ -22,39 +22,37 @@ import com.parkit.parkingsystem.service.FareCalculatorService;
 
 @ExtendWith(MockitoExtension.class)
 public class FareCalulatorUnitTest {
-	
 
-	private static FareCalculatorService fareCalculatorService;	
-    private Ticket ticket; 
- 
-    @Mock
-    private static TicketDAO ticketDAO;
-	 	  		
+	private static FareCalculatorService fareCalculatorService;
+	private Ticket ticket;
+
+	@Mock
+	private static TicketDAO ticketDAO;
+
 	@BeforeEach
 	private void setUpPerTest() {
 		ticket = new Ticket();
 		fareCalculatorService = new FareCalculatorService(ticketDAO);
-    }
-	
+	}
+
 	@Test
 	@DisplayName("5% dès la deuxième venue via ticketDAO")
 	public void calculateFareCarWithFivePourcentReductionParkingTime() {
-		// GIVEN				
-		Date inTime = new Date();	
+		// GIVEN
+		Date inTime = new Date();
 		inTime.setTime(System.currentTimeMillis() - (180 * 60 * 1000));
 		Date outTime = new Date();
-		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);	
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 		ticket = new Ticket();
 		ticket.setVehicleRegNumber("abcd");
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
-		  
+
 		when(ticketDAO.existTicketPassed(anyString())).thenReturn(true);
-		// WHEN		 		
+		// WHEN
 		fareCalculatorService.calculateFare(ticket);
-  
-		// THEN	
-		assertEquals((double)Math.round((0.95*3* Fare.CAR_RATE_PER_HOUR)* 100) / 100, ticket.getPrice());	
+		// THEN
+		assertEquals((double) Math.round((0.95 * 3 * Fare.CAR_RATE_PER_HOUR) * 100) / 100, ticket.getPrice());
 	}
-} 
+}

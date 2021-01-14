@@ -125,29 +125,14 @@ public class ParkingDataBaseTest {
 			String dateToStr = DateFormatUtils.format(inTime, "yyyy-MM-dd HH:mm:ss");
 			ps.setString(1, dateToStr);
 			ps.execute();
-			System.out.println("\n------------------------------------------------------------------");
-			System.out.println("\nUpdate Recorded IN_TIME for vehicle number ABCDEF so that PRICE >=3");
 			// --- Test ----
 			ps1 = connection.prepareStatement("Select ID,PARKING_NUMBER,VEHICLE_REG_NUMBER,IN_TIME from ticket");
 			// -- résultat vrai si il existe au moins 1 résultats mais ici nous allons
 			// récupérer les données dans un ResultSetMetadata
 			rs1 = ps1.executeQuery();
-			// On récupère les MetaData
-			ResultSetMetaData resultMeta = rs1.getMetaData();
-			System.out.println(
-					"\n******************************************************************************************");
-			// On affiche le nom des colonnes de la table
-			for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-				System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
-			System.out.println(
-					"\n******************************************************************************************");
-			// On affiche les données
-			while (rs1.next()) {
-				for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-					System.out.print("\t" + rs1.getObject(i).toString() + "\t |");
-				System.out.println(
-						"\n----------------------------------------------------------------------------------");
-			}
+			
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,7 +152,7 @@ public class ParkingDataBaseTest {
 		// Nous avons généré au dessus une nouvelle In_Time avec -3 heures qui sera
 		// effective en -2h avec le décalage de 1h de la base
 		// le PRICE devrait donc être de 3.00
- 
+
 		PreparedStatement ps2 = null;
 		ResultSet rs2 = null;
 		try {
@@ -179,29 +164,13 @@ public class ParkingDataBaseTest {
 			// récupérer les données dans un ResultSetMetadata
 			rs2 = ps2.executeQuery();
 			// On récupère les MetaData
-			ResultSetMetaData resultMeta2 = rs2.getMetaData();
-
-			System.out.println(
-					"\n**********************************************************************************************************************************");
-			// On affiche le nom des colonnes de la table
-			for (int i = 1; i <= resultMeta2.getColumnCount(); i++)
-				System.out.print("\t" + resultMeta2.getColumnName(i).toUpperCase() + "\t *");
-			System.out.println(
-					"\n**********************************************************************************************************************************");
-			// On affiche les données
+			ResultSetMetaData resultMeta2 = rs2.getMetaData();			
+			// On récupère les données
 			while (rs2.next()) {
-				for (int i = 1; i <= resultMeta2.getColumnCount(); i++)
-					System.out.print("\t" + rs2.getObject(i).toString() + "\t |");
-
-				System.out.println(
-						"\n----------------------------------------------------------------------------------------------------------------------------------");
+				for (int i = 1; i <= resultMeta2.getColumnCount(); i++)							
 				fare = Double.parseDouble(rs2.getObject(4).toString());
-				outTime = rs2.getObject(6).toString();
-				System.out.println(fare);
-				System.out.println(ticketDAO.getTicket("ABCDEF").getOutTime() + " ***** "
-						+ +ticketDAO.getTicket("ABCDEF").getPrice());
+				outTime = rs2.getObject(6).toString();		
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -26,10 +26,9 @@ public class FareCalculatorService {
 		String plaque = ticket.getVehicleRegNumber(); 
          
         //double duration = outHour - inHour; 
-        
-        double diffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());
-        //double duration= TimeUnit.MILLISECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        double duration = diffInMillies;
+          
+        long diffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());
+        double duration= TimeUnit.MILLISECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         duration = duration/3600000; 
           
         //if the duration is less than or equal to 30 minutes (duration <= 0.5) 

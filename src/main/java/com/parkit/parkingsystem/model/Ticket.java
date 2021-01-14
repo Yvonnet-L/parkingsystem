@@ -50,7 +50,7 @@ public class Ticket {
         //return inTime2;   
         return new Date(this.inTime.getTime());
     }
-
+ 
     public void setInTime(Date inTime) {
     	//-- origin --
         //this.inTime = inTime;
