@@ -56,13 +56,14 @@ public class Ticket {
         //this.inTime = inTime;
         this.inTime = new Date(inTime.getTime());
     }
-
+ 
     public Date getOutTime() {
     	//-- origin --
     	//  return outTime;
     	Date outTime2 = outTime;
         return outTime2;
-        //return new Date(this.outTime.getTime());  
+        
+     
     }
     public void setOutTime(Date outTime) {
     	//-- origin --

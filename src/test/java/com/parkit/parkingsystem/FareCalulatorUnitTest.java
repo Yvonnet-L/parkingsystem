@@ -57,4 +57,4 @@ public class FareCalulatorUnitTest {
 		// THEN	
 		assertEquals((double)Math.round((0.95*3* Fare.CAR_RATE_PER_HOUR)* 100) / 100, ticket.getPrice());	
 	}
-}
+} 

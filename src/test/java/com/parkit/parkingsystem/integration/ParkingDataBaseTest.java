@@ -75,7 +75,7 @@ public class ParkingDataBaseTest {
 		ResultSet rs1 = null;
 		PreparedStatement ps2 = null;
 		ResultSet rs2 = null;
-		try { 
+		try {
 			connection = dataBaseTestConfig.getConnection();
 			// Le ticket est-il enregistré ?
 			ps1 = connection
@@ -114,6 +114,7 @@ public class ParkingDataBaseTest {
 		String outTime = null;
 		Connection connection = null;
 		PreparedStatement ps = null;
+		PreparedStatement ps1 = null;
 		ResultSet rs1 = null;
 		try {
 			connection = dataBaseTestConfig.getConnection();
@@ -125,10 +126,9 @@ public class ParkingDataBaseTest {
 			ps.setString(1, dateToStr);
 			ps.execute();
 			System.out.println("\n------------------------------------------------------------------");
-			System.out.println("\nUpdate Recorded IN_TIME for vehicle number ABCDEF so that PRICE >3");
+			System.out.println("\nUpdate Recorded IN_TIME for vehicle number ABCDEF so that PRICE >=3");
 			// --- Test ----
-			PreparedStatement ps1 = connection
-					.prepareStatement("Select ID,PARKING_NUMBER,VEHICLE_REG_NUMBER,IN_TIME from ticket");
+			ps1 = connection.prepareStatement("Select ID,PARKING_NUMBER,VEHICLE_REG_NUMBER,IN_TIME from ticket");
 			// -- résultat vrai si il existe au moins 1 résultats mais ici nous allons
 			// récupérer les données dans un ResultSetMetadata
 			rs1 = ps1.executeQuery();
@@ -148,13 +148,12 @@ public class ParkingDataBaseTest {
 				System.out.println(
 						"\n----------------------------------------------------------------------------------");
 			}
-			dataBaseTestConfig.closePreparedStatement(ps);
-			dataBaseTestConfig.closePreparedStatement(ps1);
-			dataBaseTestConfig.closeResultSet(rs1);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			dataBaseTestConfig.closePreparedStatement(ps);
+			dataBaseTestConfig.closePreparedStatement(ps1);
 			dataBaseTestConfig.closeResultSet(rs1);
 			dataBaseTestConfig.closeConnection(connection);
 		}
@@ -165,20 +164,20 @@ public class ParkingDataBaseTest {
 		// parkingService.processExitingVehicle()?
 		// TODO: check that the fare generated and out time are populated correctly in
 		// the database --
-		// Nous avons généré au dessus une nouvelle In_Time avec -3 heures que sera
+		// Nous avons généré au dessus une nouvelle In_Time avec -3 heures qui sera
 		// effective en -2h avec le décalage de 1h de la base
 		// le PRICE devrait donc être de 3.00
-
-		PreparedStatement ps1 = null;
+ 
+		PreparedStatement ps2 = null;
 		ResultSet rs2 = null;
 		try {
 			connection = dataBaseTestConfig.getConnection();
 			// --- Test ----
 			// Le pris est-il enregistré ?
-			ps1 = connection.prepareStatement("Select * from ticket");
+			ps2 = connection.prepareStatement("Select * from ticket");
 			// -- résultat vrai si il existe au moins 1 résultats mais ici nous allons
 			// récupérer les données dans un ResultSetMetadata
-			rs2 = ps1.executeQuery();
+			rs2 = ps2.executeQuery();
 			// On récupère les MetaData
 			ResultSetMetaData resultMeta2 = rs2.getMetaData();
 
@@ -206,7 +205,7 @@ public class ParkingDataBaseTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			dataBaseTestConfig.closePreparedStatement(ps1);
+			dataBaseTestConfig.closePreparedStatement(ps2);
 			dataBaseTestConfig.closeResultSet(rs2);
 			dataBaseTestConfig.closeConnection(connection);
 		}
@@ -238,7 +237,7 @@ public class ParkingDataBaseTest {
 		}
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processExitingVehicle();
-		
+
 		assertNotNull(ticketDAO.getTicket("ABCDEF").getOutTime());
 		assertNotNull(ticketDAO.getTicket("ABCDEF").getPrice());
 	}

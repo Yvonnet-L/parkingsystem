@@ -16,7 +16,7 @@ public class ParkingSpotDAO {
 
 	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-
+ 
 	public int getNextAvailableSlot(ParkingType parkingType) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -43,7 +43,7 @@ public class ParkingSpotDAO {
 		}
 		return result;
 	}
-
+ 
 	public boolean updateParking(ParkingSpot parkingSpot) {
 		// update the availability for that parking slot
 		Connection con = null;

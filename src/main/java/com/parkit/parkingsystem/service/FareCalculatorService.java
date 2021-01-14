@@ -27,10 +27,11 @@ public class FareCalculatorService {
          
         //double duration = outHour - inHour; 
         
-        long diffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());
-        double duration= TimeUnit.MILLISECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        double diffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());
+        //double duration= TimeUnit.MILLISECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        double duration = diffInMillies;
         duration = duration/3600000; 
-         
+          
         //if the duration is less than or equal to 30 minutes (duration <= 0.5) 
         //then parking will be offered so duration = 0
         if ( duration <= 0.5 ) {

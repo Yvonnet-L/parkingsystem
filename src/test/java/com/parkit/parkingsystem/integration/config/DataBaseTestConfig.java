@@ -24,7 +24,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         
         // Externalisation des données de connection --> conf.properties
         // Cela nous permet de reinitialiser le fichier de configuration sans avoir à recompiler le projet
-         
+          
         Properties props = new Properties();
         try ( FileInputStream fis = new FileInputStream( "conf.properties" ) ) {
         	props.load( fis );

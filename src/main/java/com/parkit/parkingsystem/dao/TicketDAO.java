@@ -14,7 +14,7 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class TicketDAO {
-   
+    
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
@@ -41,7 +41,7 @@ public class TicketDAO {
         }
         return false;
     }
-   
+    
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         ResultSet rs = null;
