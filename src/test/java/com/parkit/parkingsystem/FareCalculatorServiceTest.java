@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -179,11 +180,12 @@ public class FareCalculatorServiceTest {
 	@Test
 	@DisplayName("Tarif pour 6 mois pour une voiture")
 	public void calculateFareCarWithMoreThanAYearParkingTime() {
+
 		// GIVEN
-		Date inTime = new Date();
-		// inTime.setTime(System.currentTimeMillis() - (2 * 24 * 60 * 60 * 1000));
-		inTime.setTime(Date.UTC((inTime.getYear()), (inTime.getMonth() - 6), inTime.getDate(), (inTime.getHours() - 1),
-				inTime.getMinutes(), inTime.getSeconds()));
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -6);
+		calendar.add(Calendar.HOUR, +1); // du au decalage de 1h la base
+		Date inTime = calendar.getTime();
 
 		Date outTime = new Date();
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -199,18 +201,16 @@ public class FareCalculatorServiceTest {
 	@Test
 	@DisplayName("Tarif pour 1 ans  pour un vélo")
 	public void calculateFareBikeWithMoreThanTwoMonthParkingTime() {
-		// GIVEN
-		Date inTime = new Date();
-		// inTime.setTime(System.currentTimeMillis() - (365 * 24 * 60 * 60 * 1000));
-		inTime.setTime(Date.UTC((inTime.getYear() - 1), inTime.getMonth(), inTime.getDate(), (inTime.getHours() - 1),
-				inTime.getMinutes(), inTime.getSeconds()));
-		Date outTime = new Date();
 
+		// GIVEN
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.YEAR, -1);
+		Date inTime = calendar.getTime();
+
+		Date outTime = new Date();
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
-		System.out.println("inTime  :  " + inTime + " - " + inTime.getYear());
-		System.out.println("outTime :  " + outTime);
 		ticket.setParkingSpot(parkingSpot);
 		// WHEN
 		fareCalculatorService.calculateFare(ticket);

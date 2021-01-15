@@ -45,23 +45,25 @@ public class Ticket {
  
     public Date getInTime() {
     	//-- origin --
-    	//  return inTime;
-    	//Date inTime2 = inTime;
-        //return inTime2;   
+    	//  return inTime;  
         return new Date(this.inTime.getTime());
     }
- 
+  
     public void setInTime(Date inTime) {
     	//-- origin --
         //this.inTime = inTime;
         this.inTime = new Date(inTime.getTime());
     }
- 
+  
     public Date getOutTime() {
     	//-- origin --
     	//  return outTime;
-    	Date outTime2 = outTime;
-        return outTime2;
+    	Date outTime = null;
+ 
+        if ( this.outTime != null ) {
+    		outTime = new Date(this.outTime.getTime());
+    	}
+        return outTime;
         
      
     }

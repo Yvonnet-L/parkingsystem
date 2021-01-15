@@ -10,13 +10,12 @@ import com.parkit.parkingsystem.constants.Fare;
 
 public class FareUnitTest {
 
-	Fare fare;
 	private Double prixC = 1.5;
 	private Double prixB = 1.0;
 
 	@BeforeEach
 	private void setUpPerTest() {
-		fare = new Fare();
+		
 	}
 
 	@Test
