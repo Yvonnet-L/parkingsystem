@@ -8,18 +8,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
- 
+  
 public class DataBaseConfig {
   
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
-  
+   
     public Connection getConnection() throws ClassNotFoundException, SQLException, FileNotFoundException, IOException {
         logger.info("Create DB connection");
-        //---- Origin ------------------------------------------------------------------------
-        //Class.forName("com.mysql.cj.jdbc.Driver");
-        // return DriverManager.getConnection(
-        //         "jdbc:mysql://localhost:3306/prod? serverTimezone = UTC","root","rootroot");
-        //-------------------------------------------------------------------------------------
         
         // Externalisation des données de connection --> conf.properties
         // Cela nous permet de reinitialiser le fichier de configuration sans avoir à recompiler le projet
@@ -34,8 +29,7 @@ public class DataBaseConfig {
         String driver = props.getProperty("jdbc.driver.class");
         
         Class.forName( driver);     
-        return DriverManager.getConnection( url, login, password );     
-        
+        return DriverManager.getConnection( url, login, password );        
 }
      
     public void closeConnection(Connection con){
@@ -48,7 +42,7 @@ public class DataBaseConfig {
             }
         }
     }
-  
+    
     public void closePreparedStatement(PreparedStatement ps) {
         if(ps!=null){
             try {

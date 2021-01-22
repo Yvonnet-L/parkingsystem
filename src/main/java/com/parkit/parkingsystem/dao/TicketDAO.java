@@ -14,7 +14,7 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class TicketDAO {
-    
+     
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
@@ -63,8 +63,6 @@ public class TicketDAO {
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
             } 
-            dataBaseConfig.closeResultSet(rs);
-            dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally { 
@@ -94,7 +92,7 @@ public class TicketDAO {
         }
         return false;
     }
-     
+      
     public boolean existTicketPassed(String vehicleRegNumber) {
         Connection con = null;
         ResultSet rs = null;

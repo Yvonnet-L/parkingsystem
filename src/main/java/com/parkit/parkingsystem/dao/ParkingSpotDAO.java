@@ -16,7 +16,7 @@ public class ParkingSpotDAO {
 
 	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
- 
+  
 	public int getNextAvailableSlot(ParkingType parkingType) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -29,17 +29,13 @@ public class ParkingSpotDAO {
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				result = rs.getInt(1);
-				;
 			}
-
 		} catch (Exception ex) {
 			logger.error("Error fetching next available slot", ex);
 		} finally {	
 			dataBaseConfig.closeResultSet(rs);
 			dataBaseConfig.closePreparedStatement(ps);
-			dataBaseConfig.closeConnection(con);
-			
-			
+			dataBaseConfig.closeConnection(con);		
 		}
 		return result;
 	}

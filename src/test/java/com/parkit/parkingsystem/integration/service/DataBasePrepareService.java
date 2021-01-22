@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 public class DataBasePrepareService {
 
     DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
-
+ 
     public void clearDataBaseEntries(){
         Connection connection = null;
         PreparedStatement ps1 = null;

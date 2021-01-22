@@ -14,7 +14,7 @@ import java.util.Date;
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
-
+ 
     private FareCalculatorService fareCalculatorService;
   
     private InputReaderUtil inputReaderUtil;
@@ -48,7 +48,8 @@ public class ParkingService {
                 ticket.setOutTime(null);
                 // Ajout Acceuil client 
                 if (ticketDAO.existTicketPassed(vehicleRegNumber) == true){
-                	System.out.println("\r\n"+"Welcome back!" + "\r\n" + "As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                	System.out.println("\r\n"+"Welcome back!" + "\r\n" + 
+                						"As a recurring user of our parking lot, you'll benefit from a 5% discount.");
                 }
                 ticketDAO.saveTicket(ticket);
                 System.out.println( "\r\n" + "Generated Ticket and saved in DB");
@@ -107,7 +108,7 @@ public class ParkingService {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             // Problème ici ! prend la 1er ligne trouvée 
-            //   ---> modification de la Constant sql GEt_Ticket avec "order by t.IN_TIME DESC limit 1"
+            //   ---> modification de la Constant sql GEt_Ticket avec ajout de DESC: "order by t.IN_TIME DESC limit 1"
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);

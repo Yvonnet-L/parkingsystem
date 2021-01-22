@@ -4,3 +4,4 @@ public enum ParkingType {
     CAR,
     BIKE
 }
+ 

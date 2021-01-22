@@ -26,14 +26,14 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 public class ParkingServiceTest {
 
 	private static ParkingService parkingService;
-
+ 
 	@Mock
 	private static InputReaderUtil inputReaderUtil;
 	@Mock
 	private static ParkingSpotDAO parkingSpotDAO;
 	@Mock
 	private static TicketDAO ticketDAO;
-
+ 
 	@BeforeEach
 	private void setUpPerTest() {
 		try {

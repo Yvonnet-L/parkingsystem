@@ -30,7 +30,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseTest {
-
+ 
 	private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 	private static ParkingSpotDAO parkingSpotDAO;
 	private static TicketDAO ticketDAO;
@@ -54,7 +54,7 @@ public class ParkingDataBaseTest {
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		dataBasePrepareService.clearDataBaseEntries();
 	}
-
+ 
 	@AfterAll
 	private static void tearDown() {
 	}
@@ -130,10 +130,6 @@ public class ParkingDataBaseTest {
 			// -- résultat vrai si il existe au moins 1 résultats mais ici nous allons
 			// récupérer les données dans un ResultSetMetadata
 			rs1 = ps1.executeQuery();
-			
-			
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

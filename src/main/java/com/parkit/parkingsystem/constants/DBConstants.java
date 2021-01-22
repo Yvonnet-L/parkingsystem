@@ -15,3 +15,4 @@ public class DBConstants {
     													+ "OUT_TIME is not NULL";
 }
 
+ 

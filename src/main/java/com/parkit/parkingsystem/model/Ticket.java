@@ -10,11 +10,10 @@ public class Ticket {
     private Date inTime;
     private Date outTime;
 
-
 	public int getId() {
         return id;
     }
- 
+  
     public void setId(int id) {
         this.id = id;
     }
@@ -43,33 +42,23 @@ public class Ticket {
         this.price = price;
     }
  
-    public Date getInTime() {
-    	//-- origin --
-    	//  return inTime;  
+    public Date getInTime() {  	
         return new Date(this.inTime.getTime());
     }
   
     public void setInTime(Date inTime) {
-    	//-- origin --
-        //this.inTime = inTime;
         this.inTime = new Date(inTime.getTime());
     }
   
     public Date getOutTime() {
-    	//-- origin --
-    	//  return outTime;
     	Date outTime = null;
- 
         if ( this.outTime != null ) {
     		outTime = new Date(this.outTime.getTime());
     	}
-        return outTime;
-        
-     
+        return outTime;   
     }
+    
     public void setOutTime(Date outTime) {
-    	//-- origin --
-        //this.outTime = outTime;
     	if ( outTime != null ) {
     		this.outTime = new Date(outTime.getTime());
     	}

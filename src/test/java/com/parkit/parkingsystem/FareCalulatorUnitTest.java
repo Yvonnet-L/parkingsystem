@@ -25,7 +25,7 @@ public class FareCalulatorUnitTest {
 
 	private static FareCalculatorService fareCalculatorService;
 	private Ticket ticket;
-
+ 
 	@Mock
 	private static TicketDAO ticketDAO;
 

@@ -14,10 +14,9 @@ public class FareUnitTest {
 	private Double prixB = 1.0;
 
 	@BeforeEach
-	private void setUpPerTest() {
-		
+	private void setUpPerTest() {		
 	}
-
+	 
 	@Test
 	@DisplayName("Test des prix")
 	public void testFare() throws InterruptedException {
@@ -30,3 +29,4 @@ public class FareUnitTest {
 	}
 
 }
+ 
